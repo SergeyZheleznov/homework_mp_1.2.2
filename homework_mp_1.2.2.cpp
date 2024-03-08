@@ -32,13 +32,15 @@ namespace {
 		return sum_vec;
 	}
 	// делаем универсальную функцию для двух, четырёх, восьми и шестнадцати потоков
-	auto sum_vec2(std::vector<int> vec1, std::vector<int> vec2, std::vector<int> sum_vec, int begin, int end)
+	// Я передал суммирующий вектор по ссылке, следовательно, данная фунция должна изменить не локальную копию,
+	// а основной объект sum_vec, который хранится в памяти. 
+	// однако данная 
+	void sum_vec2(std::vector<int> vec1, std::vector<int> vec2, std::vector<int> &sum_vec, int begin, int end)
 	{
 		for (int i = begin; i < end; ++i)
 		{
 			sum_vec[i] = vec1[i] + vec2[i];
 		}
-		return sum_vec;
 	}
 	// функция заполнения вектора случайными числами
 
@@ -103,7 +105,6 @@ int main()
 			std::vector<int> sum_vec = random_vec(size);
 			// здесь мы замеряем время старта
 			auto start = std::chrono::steady_clock::now();
-			// Запускаем в два потока
 			std::vector<std::thread> V;
 
 			for (int k = 0; k < max; ++k)
