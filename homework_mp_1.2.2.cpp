@@ -32,9 +32,7 @@ namespace {
 		return sum_vec;
 	}
 	// делаем универсальную функцию для двух, четырёх, восьми и шестнадцати потоков
-	// Я передал суммирующий вектор по ссылке, следовательно, данная фунция должна изменить не локальную копию,
-	// а основной объект sum_vec, который хранится в памяти. 
-	// однако данная 
+
 	void sum_vec2(std::vector<int> vec1, std::vector<int> vec2, std::vector<int> &sum_vec, int begin, int end)
 	{
 		for (int i = begin; i < end; ++i)
@@ -109,7 +107,7 @@ int main()
 
 			for (int k = 0; k < max; ++k)
 			{
-				V.push_back(std::thread(sum_vec2, vec1, vec2, sum_vec, size * k / max, size * (k + 1) / max));
+				V.push_back(std::thread(sum_vec2, vec1, vec2, std::ref(sum_vec), size * k / max, size * (k + 1) / max));
 			}
 			for (auto& el : V)
 			{
